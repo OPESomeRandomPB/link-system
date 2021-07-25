@@ -1,0 +1,34 @@
+
+/* <!-- div id="xxx"                --> */
+/* <!-- here:  #xxx { xxx:ddd}      --> */
+/* <!-- div class="xxx"             --> */
+/* <!-- here:  div.class { xxx:ddd} --> */
+div.userlogin {
+	background-color: #CCAADD;
+	border:2px dotted orange;
+	position: fixed;
+	top: 2px;
+	right: 2px;
+	width: 400px;
+	color: #667755;
+}
+
+body {
+	background-color: grey;
+	color: darkgray;
+	font: 14px sans-serif; }
+}
+
+span.help-block {
+	color: #CC1122;
+}
+
+body.dark {
+	background-color: darkgrey;
+	color: grey;
+}
+
+.wrapper{
+	width: 350px;
+	padding: 20px;
+}
