@@ -16,6 +16,11 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
     header("location: index.php");
     exit;
 }
+
+if ( isset($_REQUEST["action"]) && $_REQUEST["action"] == "insert" ){
+    	require_once('incl/functions.php');
+		insertLink();
+}
 ?>
  
 <!DOCTYPE html>
@@ -34,7 +39,16 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
     	</p>
     	Timeout: <?php echo date('Y-m-d H:i:s', $_SESSION["timeout"]); ?><br>
     </div>
-	Nu aber content bei die Fische!<br />
+	now let's put some butter to the fishes!<br />
+    <div class="insertTopRight">
+    holla
+    <?php
+    	require_once('incl/functions.php');
+    	showInsert();
+    ?>
+    </div>
+
+
     <?php
     	require_once('incl/functions.php');
     	showLinks();

@@ -4,13 +4,23 @@
 /* <!-- div class="xxx"             --> */
 /* <!-- here:  div.class { xxx:ddd} --> */
 div.userlogin {
-	background-color: #CCAADD;
+	background-color: #CCAADE;
 	border:2px dotted orange;
 	position: fixed;
 	top: 2px;
 	right: 2px;
 	width: 400px;
 	color: #667755;
+}
+
+div.insertTopRight  {
+	background-color: #AABBCC;
+	border:2px dotted green;
+	position: fixed;
+	top: 250px;
+	right: 2px;
+	width: 400px;
+	color: #448899;
 }
 
 body {
