@@ -30,9 +30,9 @@ function showLinks() {
 		$NewGroup = $row["group_name"];
 		if ( $oldGroup != $NewGroup ) {
 			$oldGroup = $NewGroup;
-			printf ("<tr><th colspan=\"3\">%s</th>", $row["group_name"] );
+			printf ("<tr><th colspan=\"3\">%s</th>", htmlspecialchars($row["group_name"] ) );
 		}
-	    printf("<tr><td><a href=\"%s\">%s</a></td></tr>\n", $row["link_uri"], $row["link_text"]);
+	    printf("<tr><td><a href=\"%s\">%s</a></td></tr>\n", htmlspecialchars($row["link_uri"] ), htmlspecialchars($row["link_text"] ) );
 	}
 
 	mysqli_stmt_free_result($stmt);
@@ -42,13 +42,13 @@ function showLinks() {
 }
 
 function showInsert() {
-	
+
 	?>
 	<form action="link.php" method="post">
 		<table>
-		<tr><th><label for="linkGroup">Group:    </label></th>		<td><input type="text" size="30" name="linkGroup"  value="general"></td></tr>		
-		<tr><th><label for="linkUri"  >Link:     </label></th>		<td><input type="text" size="50" name="linkUri"    value="https://www.heise.de"></td></tr>		
-		<tr><th><label for="linkText" >Link-Text:</label></th>		<td><input type="text" size="50" name="linkText"   value="Heise-Verlag"></td></tr>		
+		<tr><th><label for="linkGroup">Group:    </label></th>		<td><input type="text" size="30" name="linkGroup"  placeholder="general"></td></tr>
+		<tr><th><label for="linkUri"  >Link:     </label></th>		<td><input type="text" size="50" name="linkUri"    placeholder="https://www.heise.de"></td></tr>
+		<tr><th><label for="linkText" >Link-Text:</label></th>		<td><input type="text" size="50" name="linkText"   placeholder="Heise-Verlag"></td></tr>
 		</table>
 		<input type="hidden" name="action" value="insert">
 		<input type="submit" value="create">
