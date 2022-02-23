@@ -9,6 +9,7 @@ This is a try for a central link-system (I know, there are others)
 # versions:
 |version | what            | when                                           |
 |---     |---              |---                                             |
+|v0.2.1  | 2022.02         | try commit/push with bash                      |
 |v0.2    | 2022.02         | prevent HTML-injection, while showing the link |
 |        |                 | have placeholder instead of value              |
 |v0.1.2  | in 2021         | works again                                    |
