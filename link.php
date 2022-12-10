@@ -3,15 +3,17 @@
 session_start();
 
 // Check if the user is logged in, if not then redirect him to login page
-if ( isset($_SESSION["loggedin"]) ) {
-	require_once ('incl/session.control.php');
-	if ( check_session_timeout() ) {
-	  $_SESSION['lo_reason'] = "timeout";
-     header("location: logout.php");
-	}
+if (isset($_SESSION["loggedin"]) && isset($_SESSION['system']) && $_SESSION['system'] === "linksystem" ) {
+
+    require_once ('incl/session.control.php');
+    if (check_session_timeout()) {
+        $_SESSION['lo_reason'] = "timeout";
+        header("location: logout.php");
+    }
 }
 
-if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
+if (   ! isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true 
+    || ! isset($_SESSION['system'])   || $_SESSION['system'] !== "linksystem" ) {
     //header("location: login.php");
     header("location: index.php");
     exit;
@@ -51,15 +53,28 @@ if ( isset($_REQUEST["action"]) && $_REQUEST["action"] == "insert" ){
     <div class="insertTopRight">
     holla
     <?php
-    	require_once('incl/functions.php');
+        require_once('incl/functions.php');
     	showInsert();
-    ?>
+    	menuToEditMode();
+    	?>
     </div>
 
 
     <?php
-    	require_once('incl/functions.php');
+        if ( $_POST["action"] == "editGroupName" ) {
+            editGroup();
+            ;
+        } elseif ($_POST["action"] == "editEntry") {
+            editEntry();
+            ;
+        } elseif ($_POST["action"] == "deleteEntry") {
+            deleteEntry();
+            ;
+        } else {
+            require_once('incl/functions.php');
     	showLinks();
+        }
     ?>
+<br />thanks for using <?php print $_SESSION["system"]; ?> 
 </body>
 </html>

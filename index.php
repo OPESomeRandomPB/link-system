@@ -1,9 +1,10 @@
 <?php
 // Initialize the session
 session_start();
- 
+
 // Check if the user is already logged in, if yes then redirect him to welcome page
-if(isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true){
+if (   isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true 
+    && isset($_SESSION['system'])   && $_SESSION['system']   === "linksystem" ){
     //header("location: welcome.php");
     header("location: link.php");
     exit;
@@ -11,7 +12,8 @@ if(isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true){
  
 // Include config file
 require_once "incl/config.php";
- 
+
+
 // Define variables and initialize with empty values
 $username = $password = "";
 $username_err = $password_err = "";
@@ -63,7 +65,8 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                             $_SESSION["loggedin"] = true;
                             $_SESSION["id"] = $id;
                             $_SESSION["username"] = $username;
-                            $_SESSION['timeout'] = time () + $timeoutminutes;                            
+                            $_SESSION['timeout'] = time () + $timeoutminutes;
+                            $_SESSION['system'] = "linksystem";
                             
                             // Redirect user to welcome page
                             // header("location: welcome.php");

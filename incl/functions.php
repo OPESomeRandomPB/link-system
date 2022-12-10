@@ -6,7 +6,13 @@ function showLinks() {
 	mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
 
 	// SQL to be executed
-	$sql = "SELECT link_group_name, lid, link_uri, link_text, group_name FROM $TABLINK WHERE user_id = ? order by group_name, link_text";
+	if ( $_POST["action"] == "toEditMode" ) {
+	    // in case of "edit" -> one wants to see upper and lower case groups
+	    $sql = "SELECT link_group_name, lid, link_uri, link_text, group_name FROM $TABLINK WHERE user_id = ? order by group_name COLLATE latin1_bin, link_text";
+	} else {
+	    // in case of "no edit" -> one does not want to see upper and lower case groups
+	    $sql = "SELECT link_group_name, lid, link_uri, link_text, group_name FROM $TABLINK WHERE user_id = ? order by group_name, link_text";
+	}
 
 	/* create a prepared statement */
 	$stmt = $obj_mySqliConn->prepare($sql);
@@ -27,12 +33,50 @@ function showLinks() {
 	$oldGroup = "";
 	printf ("<table border=\"0\">");
 	while ($row = $result->fetch_array(MYSQLI_ASSOC)) {
-		$NewGroup = $row["group_name"];
+
+	    if ( $_POST["action"] == "toEditMode" ) {
+	        // in case of "edit" -> one wants to see upper and lower case groups
+	        $NewGroup = $row["group_name"];
+	    } else {
+	        // in case of "no edit" -> one does not want to see upper and lower case groups
+	        $NewGroup = strtoupper( $row["group_name"]);
+	    }
+	    
+	    
 		if ( $oldGroup != $NewGroup ) {
 			$oldGroup = $NewGroup;
-			printf ("<tr><th colspan=\"3\">%s</th>", htmlspecialchars($row["group_name"] ) );
+			printf ("<tr><th>%s", htmlspecialchars($row["group_name"] ) );
+			if ( $_POST["action"] == "toEditMode") {
+			    ?>
+			    </th><th>
+				<form action="link.php" method="post">
+					<input type="hidden" name="action" value="<?php print htmlspecialchars($row["group_name"]); ?>">
+					<input type="hidden" name="action" value="editGroupName">
+					<input type="submit" value="edit group">
+				</form>
+				<?php
+			}			
+			print "</th>";
 		}
-	    printf("<tr><td><a href=\"%s\">%s</a></td></tr>\n", htmlspecialchars($row["link_uri"] ), htmlspecialchars($row["link_text"] ) );
+	    printf("<tr><td><a href=\"%s\">%s</a>\n", htmlspecialchars($row["link_uri"] ), htmlspecialchars($row["link_text"] ) );
+	    if ( $_POST["action"] == "toEditMode") {
+	        ?>
+			    </td><td>
+			<form action="link.php" method="post">
+				<input type="hidden" name="action" value="<?php print $row["LID"]; ?>">
+				<input type="hidden" name="action" value="editEntry">
+				<input type="submit" value="edit entry">
+			</form>
+			    </td><td>
+			<form action="link.php" method="post">
+				<input type="hidden" name="action" value="<?php print $row["LID"]; ?>">
+				<input type="hidden" name="action" value="deleteEntry">
+				<input type="submit" value="delete entry">
+			</form>
+			
+			<?php
+			print "</td></tr>";
+	    }
 	}
 
 	mysqli_stmt_free_result($stmt);
@@ -54,6 +98,23 @@ function showInsert() {
 		<input type="submit" value="create">
 	</form>
 	<?php
+}
+
+function menuToEditMode()
+{
+    if ( $_POST["action"] != "toEditMode" ) {
+    ?>
+        <form action="link.php" method="post">
+       		<input type="hidden" name="action" value="toEditMode">
+       		<input type="submit" value="to edit mode">
+		</form>
+	<?php } else { ?>
+        <form action="link.php" method="post">
+       		<input type="hidden" name="action" value="noEditMode"> 
+       		<input type="submit" value="exit edit mode">
+       	</form>
+	<?php
+    }
 }
 
 function insertLink() {

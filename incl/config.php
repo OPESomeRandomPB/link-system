@@ -1,6 +1,6 @@
 <?php
-	$mysqliConn = mysqli_connect("server.localhost", "username", "password", "datebase");
-	$obj_mySqliConn = new mysqli("server.localhost", "username", "password", "datebase");
+	$mysqliConn = mysqli_connect("server.localhost", "username", "password", "database");
+	$obj_mySqliConn = new mysqli("server.localhost", "username", "password", "database");
 
 $basedir = dirname(__FILE__)."/..";
 
